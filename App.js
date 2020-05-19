@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  FlatList,
-} from 'react-native';
+import { StyleSheet, View, Text, FlatList, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 import Header from './components/Header';
 import GeneralStatusBar from './components/StatusBar.js';
@@ -20,42 +15,62 @@ export default function () {
   ])
 
   const pressHandler = (key) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter(todo => todo.key != key)
-    })
+    Alert.alert("Todo Delete", "Are you sure to delete this Todo? ", [
+      { text: 'No', onPress: () => { } },
+      {
+        text: 'Yes', onPress: () => {
+          setTodos((prevTodos) => {
+            return prevTodos.filter(todo => todo.key != key)
+          })
+        }
+      },
+    ])
   }
 
   const submitHandler = (text) => {
-    console.log(text);
-    setTodos((prevTodos) => {
-      return [
-        { text: text, key: Math.random().toString() },
-        ...prevTodos
-      ]
-    })
+
+    if (text.length === 0) {
+      Alert.alert("Warning", 'Please enter a Todo name...', [
+        { text: 'Okay', onPress: () => console.log("alert closed") },
+      ])
+    }
+    else {
+      Keyboard.dismiss();
+      setTodos((prevTodos) => {
+        return [
+          { text: text, key: Math.random().toString() },
+          ...prevTodos
+        ]
+      })
+    }
+
   }
 
   return (
+    <TouchableWithoutFeedback onPress={() => {
+      Keyboard.dismiss();
+    }}>
 
-    <View style={styles.container}>
+      <View style={styles.container}>
 
 
-      <GeneralStatusBar backgroundColor="chocolate"
-        barStyle="light-content" />
+        <GeneralStatusBar backgroundColor="chocolate"
+          barStyle="light-content" />
 
-      <Header />
-      <View style={styles.content}>
-        <AddTodo submitHandler={submitHandler} />
-        <View style={styles.list}>
-          <FlatList
-            data={todos}
-            renderItem={({ item }) => (
-              <TodoItem item={item} pressHandler={pressHandler} />
-            )}
-          />
+        <Header />
+        <View style={styles.content}>
+          <AddTodo submitHandler={submitHandler} />
+          <View style={styles.list}>
+            <FlatList
+              data={todos}
+              renderItem={({ item }) => (
+                <TodoItem item={item} pressHandler={pressHandler} />
+              )}
+            />
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
