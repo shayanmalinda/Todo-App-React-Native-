@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, FlatList, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Alert, TouchableWithoutFeedback, Keyboard, } from 'react-native';
+
 
 import Header from './components/Header';
 import GeneralStatusBar from './components/StatusBar.js';
 import TodoItem from './components/todoItem';
 import AddTodo from './components/addTodo';
+import Sandbox from './components/Sandbox';
 
 export default function () {
 
@@ -47,6 +49,9 @@ export default function () {
   }
 
   return (
+
+    // <Sandbox></Sandbox>
+
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss();
     }}>
@@ -58,6 +63,7 @@ export default function () {
           barStyle="light-content" />
 
         <Header />
+
         <View style={styles.content}>
           <AddTodo submitHandler={submitHandler} />
           <View style={styles.list}>
@@ -80,9 +86,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   content: {
+    flex: 1,
     padding: 40
   },
   list: {
+    flex: 1,
     marginTop: 20
   }
 });

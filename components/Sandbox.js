@@ -1,12 +1,16 @@
 import React from 'react'
-import { StyeSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 export default function Sandbox() {
     return (
-        <Text>Sandbox</Text>
+        <View style={styles.container}>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-
+    container: {
+        backgroundColor: '#ddd',
+        paddingTop: 40
+    }
 })
